@@ -263,9 +263,19 @@
     $("#c-facts").hidden = !$("#c-facts").children.length;
     $("#features-section").hidden = !(c.highlights || []).length;
     // Project details: [[label, value], ...] from the plats, permits and covenants.
+    // Overview: main photo with the subdivision details beside it, first thing under the banner.
+    $("#interest-section").hidden = false;
+    $("#interest-photo").innerHTML = tileMedia(fullName(c), c.image);
     if ((c.details || []).length) {
-      $("#details-section").hidden = false;
-      $("#c-details").innerHTML = c.details.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
+      $("#ov-details").hidden = false;
+      $("#ov-details").innerHTML = c.details.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
+    }
+    if (s.total) {   // projects with a lot map: point down to it
+      $("#interest-kicker").textContent = PHASE[c.status] || "";
+      $("#interest-title").textContent = "Choose your homesite";
+      $("#interest-text").textContent = "Click any lot on the site plan below to see its size and details.";
+      $("#interest-btn").href = "#plan-grid";
+      $("#interest-btn").textContent = "See the site plan";
     }
     if (c.image) $(".page-head").style.backgroundImage = `url('${c.image}')`;
     // Static site plan image (a colored layout rendering), shown above the photos.
@@ -292,8 +302,6 @@
     if (!s.total) {
       $("#plan-section").hidden = true;
       $("#lots-section").hidden = true;
-      $("#interest-section").hidden = false;
-      $("#interest-photo").innerHTML = tileMedia(fullName(c), c.image);
       $("#interest-kicker").textContent = PHASE[c.status] || "";
       if (done) {
         $("#interest-title").textContent = fullName(c);

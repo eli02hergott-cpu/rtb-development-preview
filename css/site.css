@@ -408,3 +408,13 @@ table.lots td:last-child, table.lots th:last-child { padding-right: 0; padding-l
 .detail-list dt { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted, #6f6a62); padding-top: 3px; }
 .detail-list dd { margin: 0; }
 @media (max-width: 600px) { .detail-list > div { grid-template-columns: 1fr; gap: 2px; } }
+
+/* project overview: photo + details side by side */
+#interest-section .project-cta { align-items: start; }
+#interest-section .project-cta-media { grid-column: 1 / span 7; position: sticky; top: 24px; }
+#interest-section .project-cta-body { grid-column: 8 / span 5; }
+#interest-section .project-cta-body h2 { margin-bottom: 18px; }
+.overview-details > div { grid-template-columns: 7.5rem 1fr; gap: 12px; padding: 9px 0; font-size: .9rem; }
+.overview-details dt { font-size: .66rem; }
+#interest-section .project-cta-body .lede { margin: 22px 0 26px; font-size: 1rem; }
+@media (max-width: 1000px) { #interest-section .project-cta-media { position: static; } #interest-section .project-cta-media, #interest-section .project-cta-body { grid-column: 1 / -1; } }
