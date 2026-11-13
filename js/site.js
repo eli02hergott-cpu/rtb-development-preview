@@ -5,7 +5,8 @@
   const STATUS = {
     available: { label: "Available", hex: "#1f5b3a" },
     contract: { label: "Under contract", hex: "#b3741a" },
-    sold: { label: "Sold", hex: "#d2cfc7" }
+    sold: { label: "Sold", hex: "#d2cfc7" },
+    planned: { label: "Planned", hex: "#3f6f95" }   // platted, not released for sale yet
   };
 
   const esc = (s) =>

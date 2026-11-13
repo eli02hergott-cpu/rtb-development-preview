@@ -187,6 +187,7 @@ a.tile:hover .tile-go { transform: translateX(4px); }
 .status-contract { color: var(--contract); }
 .status-sold { color: var(--muted); }
 .status-sold::before { background: var(--sold); }
+.status-planned { color: #3f6f95; }
 
 /* ---------- founder teaser (home) ---------- */
 .teaser { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gutter); align-items: center; }

@@ -32,8 +32,8 @@
 
   function communityTile(c) {
     const s = communityStats(c);
-    const flag = s.total ? "" : `<span class="tile-flag phase-${esc(c.status)}">${esc(PHASE[c.status] || "")}</span>`;
-    const right = s.total ? `<span class="avail">${s.available} of ${s.total} available</span>` : "";
+    const flag = s.available ? "" : `<span class="tile-flag phase-${esc(c.status)}">${esc(PHASE[c.status] || "")}</span>`;
+    const right = s.available ? `<span class="avail">${s.available} of ${s.total} available</span>` : "";
     return `
       <a class="tile reveal" href="${projectHref(c)}">
         ${tileMedia(fullName(c), c.image, flag)}
@@ -58,7 +58,7 @@
     if (!showCommunity) table.querySelectorAll(".col-comm").forEach((el) => el.remove());
 
     const sorters = {
-      lot: (r) => r.community.name + String(r.id).padStart(4, "0"),
+      lot: (r) => r.community.name + (r.sortKey || String(r.id).padStart(4, "0")),
       community: (r) => r.community.name,
       acres: (r) => r.acres,
       frontage: (r) => r.frontage,
@@ -76,11 +76,11 @@
       tbody.innerHTML = list.length
         ? list.map((r) => `
           <tr data-community="${esc(r.community.id)}" data-lot="${esc(r.id)}" tabindex="0">
-            <td class="lot-id">${esc(r.id)}</td>
+            <td class="lot-id">${esc(r.label ? r.label.replace(/^Lot /, "") : r.id)}</td>
             ${showCommunity ? `<td class="col-comm">${esc(fullName(r.community))}</td>` : ""}
             <td class="num">${acres(r.acres)}</td>
             <td class="num col-front">${r.frontage ? esc(r.frontage) + " ft" : "—"}</td>
-            <td class="num">${r.status === "sold" ? "—" : money(r.price)}</td>
+            <td class="num">${r.status === "sold" || r.status === "planned" ? "—" : money(r.price)}</td>
             <td>${status(r.status)}</td>
           </tr>`).join("")
         : `<tr><td colspan="6" class="empty">No lots match.</td></tr>`;
@@ -240,7 +240,12 @@
       `<span class="where">${esc([PHASE[c.status], c.location].filter(Boolean).join(" · "))}</span>`,
       done ? "" : esc(c.summary || "")
     ].join("");
-    $("#c-facts").innerHTML = (s.total ? [
+    const allPlanned = s.total && c.lots.every((l) => l.status === "planned");
+    $("#c-facts").innerHTML = (allPlanned ? [
+      [String(c.homesites || s.total), "Planned homesites"],
+      [`${s.sizeMin.toFixed(2)}–${s.sizeMax.toFixed(2)} ac`, "Lot sizes"],
+      [c.acreage ? `${c.acreage} ac` : "", "Total acreage"]
+    ] : s.total ? [
       [`${s.available} / ${s.total}`, "Lots available"],
       [`${s.sizeMin.toFixed(2)}–${s.sizeMax.toFixed(2)} ac`, "Lot sizes"],
       [s.priceFrom != null ? moneyShort(s.priceFrom) : "Call", "Starting at"],
@@ -312,7 +317,7 @@
       return;
     }
 
-    $("#c-legend").innerHTML = ["available", "contract", "sold"].map((k) => `${status(k)}`).join("") +
+    $("#c-legend").innerHTML = (c.legend || ["available", "contract", "sold"]).map((k) => `${status(k)}`).join("") +
       // Extra, non-clickable areas drawn into a rendered plan (e.g. future phases).
       (c.legendExtra || []).map((x) => `<span class="legend-extra"><i style="background:${esc(x.color)}"></i>${esc(x.label)}</span>`).join("");
     $("#c-plan").innerHTML = sitePlanSVG(c);
@@ -328,16 +333,18 @@
       const utilities = l.utilities || c.utilities || [];
       const plat = l.plat || c.plat;
       $("#lot-detail").innerHTML = `
-        <div class="top"><div class="name">Lot ${esc(l.id)}</div>${status(l.status)}</div>
-        <div class="price">${l.status === "sold" ? "Sold" : money(l.price)}</div>
+        <div class="top"><div class="name">${esc(l.label || "Lot " + l.id)}</div>${status(l.status)}</div>
+        <div class="price">${l.status === "sold" ? "Sold" : l.status === "planned" ? "Coming soon" : money(l.price)}</div>
         <ul class="spec">
           <li><span>Size</span><span>${acres(l.acres)} · ${sqft(l.acres)}</span></li>
+          ${l.phase ? `<li><span>Phase</span><span>${esc(l.phase)}</span></li>` : ""}
           <li><span>Frontage</span><span>${l.frontage ? esc(l.frontage) + " ft" : "—"}</span></li>
+          ${(l.setbacks || c.setbacks) ? `<li><span>Setbacks</span><span>${esc(l.setbacks || c.setbacks)}</span></li>` : ""}
           ${utilities.length ? `<li><span>Utilities</span><span>${utilities.map(esc).join("<br>")}</span></li>` : ""}
         </ul>
         ${l.notes ? `<p class="note">${esc(l.notes)}</p>` : ""}
         <div class="actions">
-          ${l.status !== "sold" ? `<a class="btn" href="contact.html?community=${encodeURIComponent(c.id)}&lot=${encodeURIComponent(l.id)}">Ask about Lot ${esc(l.id)}</a>` : ""}
+          ${l.status !== "sold" ? `<a class="btn" href="contact.html?community=${encodeURIComponent(c.id)}&lot=${encodeURIComponent(l.id)}">Ask about ${esc(l.label || "Lot " + l.id)}</a>` : ""}
           ${plat ? `<a class="btn btn-line" href="${esc(plat)}" target="_blank" rel="noopener">Plat (PDF)</a>` : ""}
         </div>`;
       if (scroll) $("#plan-grid").scrollIntoView({ behavior: "smooth", block: "start" });
