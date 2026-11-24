@@ -186,6 +186,7 @@ window.RTB = {
     { id: "calhoun-place",   name: "Calhoun Place",   status: "coming-soon",  location: "Greenwood, SC",
       details: [["Location", "Calhoun Road at Thornblade Drive, Greenwood, SC"], ["Buildings", "18 townhome buildings, 77 homes"], ["Streets", "Sierra Way and Jax Loop (private)"], ["Zoning", "R-7"], ["Setbacks", "20 ft front, 15 ft rear"], ["Open space", "2.70 acres, maintained by the owners"], ["Sidewalks", "5 ft concrete at every home"], ["Amenities", "Pickleball court, covered pavilion with grills, playground, mail kiosk, visitor parking"], ["Phase 1", "Clairborne paired homes on Whirlaway Court"]],
       summary: "Eighteen townhome buildings, 77 homes, on private streets off Thornblade Drive, with a pickleball court, pavilion, playground and 2.70 acres of open space.",
+      highlights: ["77 townhomes in 18 buildings", "Private streets off Thornblade Drive", "Pickleball court and covered pavilion with grills", "Playground and mail kiosk", "2.70 acres of open space", "5 ft sidewalks at every home"],
       image: "images/calhoun-place-photoreal.jpg",   // photoreal pass (GPT image) of the 3D aerial; layout checked against the render
       imageNote: "Artist's rendering. Current layout is subject to change.",
       layout: { image: "images/calhoun-place-site-plan.jpg", note: "Illustrative rendering based on Carolina Engineering sheet C-1 (rev. 9/16/26). Landscaping is conceptual." },
@@ -469,7 +470,8 @@ window.RTB = {
       highlights: ["79 homesites in two phases", "Lots of 0.23–0.36 acre", "Sidewalks on both sides of every street", "Ponds and green space"] },
     { name: "Canterbury Farms", location: "Grovetown, GA", image: "images/canterbury-entry.jpg",
       details: [["Location", "Off Chamblin Road, Grovetown, Columbia County, GA"], ["Size", "Over 400 acres, master-planned"], ["Sections", "Bridgewater, Brentford, Durham, Ellington, Kensey Park, Lancaster and Highgate"], ["Amenities", "Junior Olympic pool, pavilion, playground, parks, walking trails, sidewalks and streetlights"], ["RTB's role", "Home builder (R.T. Bailey Construction) from 2009"]],
-      summary: "A 400-acre master-planned community off Chamblin Road with a pool, pavilion, playground, parks and walking trails, where R.T. Bailey Construction built homes." },
+      summary: "A 400-acre master-planned community off Chamblin Road with a pool, pavilion, playground, parks and walking trails, where R.T. Bailey Construction built homes.",
+      highlights: ["400-acre master-planned community", "Junior Olympic pool and pavilion", "Parks, playground and walking trails", "Sidewalks and streetlights"] },
     { name: "The Retreat at Grand Harbor", location: "Lake Greenwood, SC", lots: 63, acreage: 112.8, image: "images/retreat-entry.jpg",
       details: [["Location", "Lake Greenwood, Greenwood County, SC"], ["Size", "112.8 acres"], ["Homesites", "63, about 1 to 2.5 acres"], ["Streets", "Abercrombie Pointe and Retreat Court"], ["Amenities", "Gated entry, pool and clubhouse, nature trail, community boat docks, conservation easement"], ["POA", "The Retreat at Grand Harbor Property Owners Association"], ["Plans built", "Hensley, Charlotte, Carrie, Elisabeth, Inverness II, Berin, Autumn, Denise, Mancos and custom homes"], ["History", "Platted in 2005; RTB took over as developer in 2015"]],
       layout: {"image": "images/plan-retreat.jpg", "note": "Master plan (2022). Lot availability shown is out of date."},
@@ -485,6 +487,7 @@ window.RTB = {
       details: [["Location", "Lilac Loop off Magnolia Drive near SC Highway 246, Greenwood County, SC"], ["Size", "15.5 acres"], ["Townhome lots", "71: 20 ft wide (24 ft at the ends), about 100 ft deep"], ["Storage", "Lake Greenwood Storage next door, about 236 units in six buildings"], ["Open space", "Two common areas (3.35 acres) and two retention ponds"]],
       layout: {"image": "images/plan-towns-lake-greenwood.jpg", "note": "Recorded plat (2025)."},
       summary: "71 townhome lots on Lilac Loop off Magnolia Drive near SC Highway 246, built alongside Lake Greenwood Storage, with common green space and two retention ponds.",
+      highlights: ["71 townhome lots", "Lake Greenwood Storage next door", "3.35 acres of common area", "Two retention ponds"],
       gallery: ["images/towns-lake-greenwood-lots.jpg", "images/towns-lake-greenwood-site.jpg"] },
     { name: "Newberry Landing", location: "Newberry, SC", lots: 82, acreage: 27, image: "images/newberry-sign.jpg",
       details: [["Location", "Smith Road near Wilson Road, City of Newberry, SC"], ["Size", "About 27 acres"], ["Homesites", "82 in two phases (29 and 53)"], ["Lot sizes", "Mostly 0.21 acre, 62 ft wide by about 150 ft deep"], ["Streets", "Newberry Landing Circle and Chance Way"], ["Zoning", "R-6"], ["Amenities", "Sidewalk, entrance green and detention pond"], ["POA", "Newberry Landing Property Owners Association"], ["Plans built", "Alpine, Daphne, Raedden, Francis, Tiffany, Margaret and Kirkwood"], ["Recorded", "Phase 1 in 2020, Phase 2 in 2021"]],
@@ -500,6 +503,7 @@ window.RTB = {
     { name: "Evans Trade Center", type: "Office park", location: "Evans, GA", lots: 18, image: "images/evans-tc.jpg",
       details: [["Location", "Trade Center Drive at Columbia Industrial Boulevard and Evans to Locks Road, Evans, GA"], ["Lots", "18 professional, commercial and light-industrial lots on a private drive"], ["Buildings by RTB", "Offices on Lots 3, 4, 5, 14 and 16, including RTB's own office"], ["POA", "Evans Trade Center Property Owners Association, formed 2015"]],
       layout: {"image": "images/plan-evans-trade-center.jpg", "note": "Lot layout."},
-      summary: "An 18-lot professional and commercial park on Trade Center Drive at Columbia Industrial Boulevard and Evans to Locks Road, where RTB also built several of the office buildings, including its own office." }
+      summary: "An 18-lot professional and commercial park on Trade Center Drive at Columbia Industrial Boulevard and Evans to Locks Road, where RTB also built several of the office buildings, including its own office.",
+      highlights: ["18 professional and commercial lots", "Private drive off Columbia Industrial Boulevard", "Office buildings built by RTB, including its own", "Property owners association since 2015"] }
   ]
 };
