@@ -37,7 +37,8 @@
   function communityTile(c) {
     const s = communityStats(c);
     const flag = s.available ? "" : `<span class="tile-flag phase-${esc(c.status)}">${esc(PHASE[c.status] || "")}</span>`;
-    const right = s.available ? `<span class="avail">${s.available} of ${s.total} available</span>` : "";
+    const right = s.available ? `<span class="avail">${s.available} of ${s.total} available</span>`
+      : s.presale ? `<span class="avail">${s.presale} of ${s.total} open for presale</span>` : "";
     return `
       <a class="tile reveal" href="${projectHref(c)}">
         ${tileMedia(fullName(c), c.image, flag, c.imageNote)}
@@ -67,7 +68,7 @@
       acres: (r) => r.acres,
       frontage: (r) => r.frontage,
       price: (r) => (r.price == null ? Infinity : r.price),
-      status: (r) => ["available", "contract", "sold"].indexOf(r.status)
+      status: (r) => ["available", "presale", "contract", "later", "planned", "sold"].indexOf(r.status)
     };
 
     function render() {
@@ -84,7 +85,7 @@
             ${showCommunity ? `<td class="col-comm">${esc(fullName(r.community))}</td>` : ""}
             <td class="num">${acres(r.acres)}</td>
             <td class="num col-front">${frontText(r)}</td>
-            <td class="num">${r.status === "sold" || r.status === "planned" ? "—" : money(r.price)}</td>
+            <td class="num">${r.status === "sold" ? "Sold" : r.status === "planned" || r.status === "later" ? "TBA" : r.price == null && r.community && r.community.priceFrom ? "From " + money(r.community.priceFrom) : money(r.price)}</td>
             <td>${status(r.status)}</td>
           </tr>`).join("")
         : `<tr><td colspan="6" class="empty">No lots match.</td></tr>`;
@@ -146,7 +147,7 @@
 
     function apply() {
       const n = table.setFilter((r) =>
-        (f.status === "all" || r.status === f.status) && (f.community === "all" || r.community.id === f.community));
+        (f.status === "all" || r.status === f.status || (f.status === "available" && r.status === "presale")) && (f.community === "all" || r.community.id === f.community));
       $("#lot-count").textContent = plural(n, "lot", "lots");
       document.querySelectorAll("#status-seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.status === f.status)));
     }
@@ -245,7 +246,12 @@
       done ? "" : esc(c.summary || "")
     ].join("");
     const allPlanned = s.total && c.lots.every((l) => l.status === "planned");
-    $("#c-facts").innerHTML = (allPlanned ? [
+    $("#c-facts").innerHTML = (s.presale && !s.available ? [
+      [`${s.presale} of ${s.total}`, "Open for presale"],
+      [`${s.sizeMin.toFixed(2)}–${s.sizeMax.toFixed(2)} ac`, "Lot sizes"],
+      [s.priceFrom != null ? moneyShort(s.priceFrom) : "Call", "Starting at"],
+      [c.acreage ? `${c.acreage} ac` : "", "Total acreage"]
+    ] : allPlanned ? [
       [String(c.homesites || s.total), "Planned homesites"],
       [`${s.sizeMin.toFixed(2)}–${s.sizeMax.toFixed(2)} ac`, "Lot sizes"],
       [c.acreage ? `${c.acreage} ac` : "", "Total acreage"]
@@ -269,6 +275,7 @@
     // Project details: [[label, value], ...] from the plats, permits and covenants.
     // Overview: main photo with the subdivision details beside it, first thing under the banner.
     $("#interest-section").hidden = false;
+    if (c.map) whereMap(c);
     $("#interest-photo").innerHTML = tileMedia(fullName(c), c.image, "", c.imageNote);
     if ((c.details || []).length) {
       $("#ov-details").hidden = false;
@@ -347,7 +354,7 @@
       const plat = l.plat || c.plat;
       $("#lot-detail").innerHTML = `
         <div class="top"><div class="name">${esc(l.label || "Lot " + l.id)}</div>${status(l.status)}</div>
-        <div class="price">${l.status === "sold" ? "Sold" : l.status === "planned" ? "Coming soon" : money(l.price)}</div>
+        <div class="price">${l.status === "sold" ? "Sold" : l.status === "planned" ? "Coming soon" : l.status === "later" ? "Later release" : l.price == null && c.priceFrom ? "From " + money(c.priceFrom) : money(l.price)}</div>
         <ul class="spec">
           <li><span>Size</span><span>${acres(l.acres)} · ${l.sqft ? Math.round(l.sqft).toLocaleString("en-US") + " sq ft" : sqft(l.acres)}</span></li>
           ${l.phase ? `<li><span>Phase</span><span>${esc(l.phase)}</span></li>` : ""}
@@ -374,8 +381,50 @@
     lotTable($("#lot-rows"), rows, { showCommunity: false, sort: "lot", onPick: (_, lid) => select(lid, { scroll: true }) }).render();
 
     const fromHash = decodeURIComponent((location.hash.match(/^#lot-(.+)$/) || [])[1] || "");
-    const first = c.lots.find((l) => l.status === "available") || c.lots[0];
+    const first = c.lots.find((l) => l.status === "available") || c.lots.find((l) => l.status === "presale") || c.lots[0];
     select(c.lots.some((l) => l.id === fromHash) ? fromHash : first.id);
+  }
+
+  // Location map: the site and nearby landmarks with driving distances (c.map).
+  //   map: { site: [lat, lng], places: [{ name, lat, lng, miles, minutes, route: [[lat, lng], ...] }], text, note }
+  function loadLeaflet() {
+    if (window.L) return Promise.resolve();
+    const css = document.createElement("link");
+    css.rel = "stylesheet"; css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+    document.head.appendChild(css);
+    return new Promise((ok, fail) => {
+      const s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+      s.onload = ok; s.onerror = fail; document.head.appendChild(s);
+    });
+  }
+  function whereMap(c) {
+    const m = c.map;
+    $("#where-section").hidden = false;
+    $("#where-title").textContent = m.title || `Where ${c.name} is`;
+    $("#where-text").textContent = m.text || "";
+    $("#where-note").textContent = m.note || "";
+    $("#c-map").setAttribute("aria-label", `Map of ${c.name} and nearby places`);
+    $("#where-list").innerHTML = m.places.map((p) =>
+      `<li><span class="pl">${esc(p.name)}</span><span class="d">${esc(p.miles)} mi · about ${esc(p.minutes)} min</span></li>`).join("");
+    loadLeaflet().then(() => {
+      const L = window.L;
+      const map = L.map("c-map", { scrollWheelZoom: false, attributionControl: true });
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      const pts = [m.site];
+      m.places.forEach((p) => {
+        if (p.route) L.polyline(p.route, { color: "#6e2230", weight: 3, opacity: .55, dashArray: "6 6" }).addTo(map);
+        L.circleMarker([p.lat, p.lng], { radius: 6, color: "#fff", weight: 2, fillColor: "#2a2723", fillOpacity: 1 })
+          .addTo(map).bindTooltip(`${p.name} · ${p.miles} mi`, { permanent: true, direction: p.label || "right", className: "map-label" });
+        pts.push([p.lat, p.lng]);
+      });
+      L.circleMarker(m.site, { radius: 10, color: "#fff", weight: 3, fillColor: "#6e2230", fillOpacity: 1 })
+        .addTo(map).bindTooltip(c.name, { permanent: true, direction: "top", offset: [0, -8], className: "map-label map-label-site" });
+      map.fitBounds(L.latLngBounds(pts).pad(0.12));
+    }).catch(() => { $("#c-map").hidden = true; });
   }
 
   /* ---------------- past projects ---------------- */

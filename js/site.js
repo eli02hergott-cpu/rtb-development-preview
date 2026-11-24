@@ -6,7 +6,9 @@
     available: { label: "Available", hex: "#1f5b3a" },
     contract: { label: "Under contract", hex: "#b3741a" },
     sold: { label: "Sold", hex: "#d2cfc7" },
-    planned: { label: "Planned", hex: "#3f6f95" }   // platted, not released for sale yet
+    planned: { label: "Planned", hex: "#3f6f95" },   // platted, not released for sale yet
+    presale: { label: "Presale", hex: "#2e7d5b" },   // open to reserve now, before the lots are finished
+    later: { label: "Later release", hex: "#3f6f95" }   // held back; released after the presale lots
   };
 
   const esc = (s) =>
@@ -29,7 +31,9 @@
       available: avail.length,
       contract: lots.filter((l) => l.status === "contract").length,
       sold: lots.filter((l) => l.status === "sold").length,
-      priceFrom: prices.length ? Math.min(...prices) : null,
+      presale: lots.filter((l) => l.status === "presale").length,
+      // A community-wide "lots from" price (c.priceFrom) stands in until lots are priced one by one.
+      priceFrom: prices.length ? Math.min(...prices) : (c.priceFrom ?? null),
       sizeMin: lots.length ? Math.min(...lots.map((l) => l.acres)) : null,
       sizeMax: lots.length ? Math.max(...lots.map((l) => l.acres)) : null
     };
