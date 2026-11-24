@@ -4,7 +4,7 @@
  * This is the ONLY file you need to edit to update the website.
  *
  * communities = current projects (shown on Inventory).
- *   status: "selling" | "construction" | "coming-soon"
+ *   status: "selling" | "presale" | "construction" | "coming-soon"
  *   Add `lots` to a community to turn on its site plan and lot table:
  *     lots: [
  *       { id: "1", acres: 0.42, frontage: 85, price: 79000, status: "available" },
@@ -402,7 +402,7 @@ window.RTB = {
         {"id": "2-130", "label": "Phase 2 · Lot 130", "phase": "Phase 2", "acres": 0.20193, "frontage": 138, "price": null, "status": "planned", "points": "1182.1,1280.4 1238.1,1206.9 1238.1,1204.6 1236.7,1202.7 1096.2,1128.0 1092.4,1129.9 1064.0,1183.6 1077.7,1228.1 1178.6,1281.7", "sortKey": "2-130", "frontageApprox": true, "notes": "Corner lot: frontage counts both streets."}
       ]
     },
-    { id: "piper-place",     name: "Piper Place",     status: "coming-soon",  location: "Columbia County, GA",
+    { id: "piper-place",     name: "Piper Place",     status: "presale",  location: "Columbia County, GA",
       details: [["Location", "Cobbham Road (SR 150) near Pollards Corner, Columbia County, GA: about 2 miles from Pollards Corner, 8 from Riverwood and 15 from Harlem"], ["Size", "54.69 acres"], ["Homesites", "18 wooded lots, 2.50 to 4.98 acres"], ["Price", "Lots from $155,000"], ["Availability", "Presale open now on lots 1–4 and 11–18. Lots 5–10 will be released later."], ["Layout", "One new road off Cobbham Road that branches into two cul-de-sacs, with a creek corridor along the back"], ["Utilities", "Private well and septic on each lot"], ["Zoning", "R-A"], ["Setbacks", "75 ft from the street centerline (125 ft from Cobbham Road), 10 ft side, 25 ft rear"], ["Plat", "Recorded November 20, 2026 (Columbia County Plat Book E2026, Page 239)"], ["Timing", "Lots released summer 2027"]],
       summary: "18 wooded homesites of 2.5 to 5 acres on 54.69 acres off Cobbham Road near Pollards Corner, on one new road that branches into two quiet cul-de-sacs. Lots from $155,000, with presale open now.",
       image: "images/piper-place-cover.jpg",   // artist's rendering (GPT image) of the finished road through the woods; layout follows the recorded plat

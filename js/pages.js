@@ -6,7 +6,7 @@
   const $ = (s, root = document) => root.querySelector(s);
   const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
-  const PHASE = { selling: "Now selling", construction: "Under construction", "coming-soon": "Coming soon", completed: "Completed" };
+  const PHASE = { selling: "Now selling", presale: "Presaling now", construction: "Under construction", "coming-soon": "Coming soon", completed: "Completed" };
   const slug = (t) => t.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   // Past projects get a page too: give each an id and a "completed" status.
   D.pastProjects.forEach((p) => { p.id = p.id || slug(p.name + (p.phase ? " " + p.phase : "")); p.status = "completed"; });
@@ -132,6 +132,7 @@
     $("#summary").textContent = [
       s ? plural(s, "lot", "lots") + " available" : "",
       byStatus("construction") ? byStatus("construction") + " under construction" : "",
+      byStatus("presale") ? byStatus("presale") + " presaling now" : "",
       byStatus("coming-soon") ? byStatus("coming-soon") + " coming soon" : ""
     ].filter(Boolean).join(" · ");
     $("#communities").innerHTML = D.communities.map(communityTile).join("");

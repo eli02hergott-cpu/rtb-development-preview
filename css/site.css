@@ -179,7 +179,7 @@ a.tile:hover .tile-go { transform: translateX(4px); }
 /* ---------- status ---------- */
 .avail { color: var(--accent); font-weight: 500; }
 .phase { font-family: var(--sans); font-size: .64rem; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; }
-.phase-construction, .phase-selling { color: var(--accent); }
+.phase-construction, .phase-selling, .phase-presale { color: var(--accent); }
 .phase-coming-soon { color: var(--contract); }
 .status { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; white-space: nowrap; }
 .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
