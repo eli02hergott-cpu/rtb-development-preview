@@ -265,7 +265,7 @@
     // Project details: [[label, value], ...] from the plats, permits and covenants.
     // Overview: main photo with the subdivision details beside it, first thing under the banner.
     $("#interest-section").hidden = false;
-    $("#interest-photo").innerHTML = tileMedia(fullName(c), c.image);
+    $("#interest-photo").innerHTML = tileMedia(fullName(c), c.image) + (c.imageNote ? `<p class="photo-note">${esc(c.imageNote)}</p>` : "");
     if ((c.details || []).length) {
       $("#ov-details").hidden = false;
       $("#ov-details").innerHTML = c.details.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
@@ -329,6 +329,7 @@
       // Extra, non-clickable areas drawn into a rendered plan (e.g. future phases).
       (c.legendExtra || []).map((x) => `<span class="legend-extra"><i style="background:${esc(x.color)}"></i>${esc(x.label)}</span>`).join("");
     $("#c-plan").innerHTML = sitePlanSVG(c);
+    if (c.sitePlan && c.sitePlan.note) $("#c-plan").nextElementSibling.textContent = c.sitePlan.note;
     $("#c-features").innerHTML = (c.highlights || []).map((h) => `<li>${esc(h)}</li>`).join("");
     if (c.plat) $("#c-plat").innerHTML = `<a class="text-link" href="${esc(c.plat)}" target="_blank" rel="noopener">Download plat (PDF)</a>`;
 
@@ -344,7 +345,7 @@
         <div class="top"><div class="name">${esc(l.label || "Lot " + l.id)}</div>${status(l.status)}</div>
         <div class="price">${l.status === "sold" ? "Sold" : l.status === "planned" ? "Coming soon" : money(l.price)}</div>
         <ul class="spec">
-          <li><span>Size</span><span>${acres(l.acres)} · ${sqft(l.acres)}</span></li>
+          <li><span>Size</span><span>${acres(l.acres)} · ${l.sqft ? Math.round(l.sqft).toLocaleString("en-US") + " sq ft" : sqft(l.acres)}</span></li>
           ${l.phase ? `<li><span>Phase</span><span>${esc(l.phase)}</span></li>` : ""}
           <li><span>Frontage</span><span>${l.frontage ? esc(l.frontage) + " ft" : "—"}</span></li>
           ${(l.setbacks || c.setbacks) ? `<li><span>Setbacks</span><span>${esc(l.setbacks || c.setbacks)}</span></li>` : ""}
