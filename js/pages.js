@@ -16,9 +16,10 @@
   const byStatus = (st) => D.communities.filter((c) => c.status === st).length;
 
   // Photo, or an intentional empty slot until one is supplied.
-  function tileMedia(name, image, flag = "") {
+  // `note` = a small disclaimer shown on the photo (e.g. "Artist's rendering ...").
+  function tileMedia(name, image, flag = "", note = "") {
     return image
-      ? `<div class="tile-media" role="img" aria-label="${esc(name)}">${flag}<div class="img" style="background-image:url('${esc(image)}')"></div></div>`
+      ? `<div class="tile-media" role="img" aria-label="${esc(name)}">${flag}<div class="img" style="background-image:url('${esc(image)}')"></div>${note ? `<span class="photo-note">${esc(note)}</span>` : ""}</div>`
       : `<div class="tile-media no-photo">${flag}<svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="17" cy="17" r="16"/><path d="M17 5v24M5 17h24" opacity=".5"/><path d="M17 7l3 10-3-2-3 2z" fill="currentColor"/></svg><small>Photo coming soon</small></div>`;
   }
 
@@ -36,7 +37,7 @@
     const right = s.available ? `<span class="avail">${s.available} of ${s.total} available</span>` : "";
     return `
       <a class="tile reveal" href="${projectHref(c)}">
-        ${tileMedia(fullName(c), c.image, flag)}
+        ${tileMedia(fullName(c), c.image, flag, c.imageNote)}
         ${tileBody(fullName(c), c.location, right)}
       </a>`;
   }
@@ -46,7 +47,7 @@
     const right = [p.type, p.year].filter(Boolean).map(esc).join(" · ");
     return `
       <a class="tile tile-past reveal" href="${projectHref(p)}">
-        ${tileMedia(name, p.image)}
+        ${tileMedia(name, p.image, "", p.imageNote)}
         ${tileBody(name, p.location, right)}
       </a>`;
   }
@@ -265,7 +266,7 @@
     // Project details: [[label, value], ...] from the plats, permits and covenants.
     // Overview: main photo with the subdivision details beside it, first thing under the banner.
     $("#interest-section").hidden = false;
-    $("#interest-photo").innerHTML = tileMedia(fullName(c), c.image) + (c.imageNote ? `<p class="photo-note">${esc(c.imageNote)}</p>` : "");
+    $("#interest-photo").innerHTML = tileMedia(fullName(c), c.image, "", c.imageNote);
     if ((c.details || []).length) {
       $("#ov-details").hidden = false;
       $("#ov-details").innerHTML = c.details.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");

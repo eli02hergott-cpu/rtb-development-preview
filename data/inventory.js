@@ -68,6 +68,7 @@ window.RTB = {
       summary: "Golf-course and wooded homesites in Johnsonville, wrapped by the Wellman golf course, with paved streets, ponds and green space. 106 homesites are developed now, with about 147 more planned in two future phases.",
       details: [["Location", "S. Persimmon Ford Road at Fairway Drive, Johnsonville, Florence County, SC"], ["Setting", "Wrapped by the Wellman golf course, with ponds, woods and green space"], ["Homesites", "106 developed on Pembroke Boulevard, St. David Drive, Mingo Trail, Deborah Court, Cavello Court and Cedar Grove Court, plus about 147 more planned in two future phases"], ["Lot sizes", "6,600, 8,400 and 9,800 sq ft on 55, 60 and 70 ft frontage"], ["Zoning", "Planned Development District (PDD), City of Johnsonville"], ["Setbacks", "20 ft front, 5 ft side, 20 ft rear; 50 ft buffer along the property line"], ["Utilities", "Public water and sewer, paved streets"], ["Amenities", "Golf-course and wooded homesites, retention ponds, green space"]],
       image: "images/persimmon-fields-cover.jpg",   // rendering of the planned entrance monument (from the server sketch)
+      imageNote: "Artist's rendering. Final design is subject to change.",
       highlights: ["Homesites on the Wellman golf course", "Paved streets", "Public water & sewer", "Ponds and open space", "Future phases planned"],
       utilities: ["Public water", "Public sewer"],
       // Colored plan traced from the Cates / JE Todd planning map (4/2022) as colored Dec 2025, with the
@@ -186,6 +187,7 @@ window.RTB = {
       details: [["Location", "Calhoun Road at Thornblade Drive, Greenwood, SC"], ["Buildings", "18 townhome buildings, 77 homes"], ["Streets", "Sierra Way and Jax Loop (private)"], ["Zoning", "R-7"], ["Setbacks", "20 ft front, 15 ft rear"], ["Open space", "2.70 acres, maintained by the owners"], ["Sidewalks", "5 ft concrete at every home"], ["Amenities", "Pickleball court, covered pavilion with grills, playground, mail kiosk, visitor parking"], ["Phase 1", "Clairborne paired homes on Whirlaway Court"]],
       summary: "Eighteen townhome buildings, 77 homes, on private streets off Thornblade Drive, with a pickleball court, pavilion, playground and 2.70 acres of open space.",
       image: "images/calhoun-place-photoreal.jpg",   // photoreal pass (GPT image) of the 3D aerial; layout checked against the render
+      imageNote: "Artist's rendering. Current layout is subject to change.",
       layout: { image: "images/calhoun-place-site-plan.jpg", note: "Illustrative rendering based on Carolina Engineering sheet C-1 (rev. 9/16/26). Landscaping is conceptual." },
       gallery: [
         { video: "images/calhoun-place-flyover.mp4", poster: "images/calhoun-place-aerial-north.jpg" },
@@ -196,6 +198,7 @@ window.RTB = {
       details: [["Location", "Town of Ninety Six, Greenwood County, SC: Phase 1 off Davis Drive, Phase 2 off SC Highway 246"], ["Size", "69.5 acres (22.1 in Phase 1, 47.4 in Phase 2)"], ["Homesites", "197 single-family lots (67 in Phase 1, 130 in Phase 2)"], ["Lot sizes", "Phase 1 mostly 6,500 sq ft on 50 ft frontage (average 7,650); Phase 2 average 10,733 sq ft"], ["Streets", "Fowler Circle and Patriots Way, public streets accepted by the Town of Ninety Six"], ["Utilities", "Public water and sewer"], ["Zoning", "R-7, cluster development"], ["Setbacks", "20 ft front, 5 ft side, 15 ft rear"], ["Open space", "About 22 acres"], ["Amenities", "Pickleball court, playground, mulch walking trail with footbridge, mailbox kiosks, landscaped entrance"]],
       summary: "197 single-family homesites in two phases in the Town of Ninety Six, off Davis Drive and SC Highway 246, with a pickleball court, playground, walking trail and green space.",
       image: "images/patriots-landing-cover.jpg"   /* rendering of the neighborhood as planned, from the colored plan */, acreage: 69.5, homesites: 197,
+      imageNote: "Artist's rendering. Current lot layout is subject to change.",
       highlights: ["197 homesites in two phases", "Phase 1: 67 lots on 22 acres", "Phase 2: 130 lots on 47 acres", "Pickleball court and playground", "Mulch walking trail and footbridge", "Public water and sewer", "Public streets accepted by the Town of Ninety Six"],
       // Engineer's preliminary plat (J.G. Swift & Associates); lot numbers and areas read from the plat.
       sitePlan: { image: "images/patriots-landing-site-plan.jpg", width: 4209, height: 2149, overlay: "outline", tint: 0.22, outline: 1.6 },

@@ -420,6 +420,7 @@ table.lots td:last-child, table.lots th:last-child { padding-right: 0; padding-l
 @media (max-width: 1000px) { #interest-section .project-cta-media { position: static; } #interest-section .project-cta-media, #interest-section .project-cta-body { grid-column: 1 / -1; } }
 
 /* Small disclaimer on a project's main photo (e.g. an artist's rendering). */
-#interest-photo { position: relative; }
-.photo-note { position: absolute; left: 10px; bottom: 10px; margin: 0; padding: 4px 9px; border-radius: 3px;
+.tile-media { position: relative; }
+.photo-note { position: absolute; z-index: 2; left: 10px; bottom: 10px; max-width: calc(100% - 20px); margin: 0; padding: 4px 9px; border-radius: 3px;
   background: rgba(20, 16, 12, .62); color: #f5efe4; font-size: 11.5px; line-height: 1.3; letter-spacing: .01em; pointer-events: none; }
+.tile .photo-note { left: 8px; bottom: 8px; font-size: 10.5px; padding: 3px 7px; }
