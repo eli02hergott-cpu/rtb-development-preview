@@ -15,6 +15,9 @@
   const allLots = () => D.communities.flatMap(lotsOf);
   const byStatus = (st) => D.communities.filter((c) => c.status === st).length;
 
+  // Street frontage: "50 ft", "≈ 63 ft" when measured from the site plan, or a label such as "On cul-de-sac".
+  const frontText = (l) => l.frontageLabel ? esc(l.frontageLabel) : l.frontage ? (l.frontageApprox ? "≈ " : "") + esc(l.frontage) + " ft" : "—";
+
   // Photo, or an intentional empty slot until one is supplied.
   // `note` = a small disclaimer shown on the photo (e.g. "Artist's rendering ...").
   function tileMedia(name, image, flag = "", note = "") {
@@ -80,7 +83,7 @@
             <td class="lot-id">${esc(r.label ? r.label.replace(/^Lot /, "") : r.id)}</td>
             ${showCommunity ? `<td class="col-comm">${esc(fullName(r.community))}</td>` : ""}
             <td class="num">${acres(r.acres)}</td>
-            <td class="num col-front">${r.frontage ? esc(r.frontage) + " ft" : "—"}</td>
+            <td class="num col-front">${frontText(r)}</td>
             <td class="num">${r.status === "sold" || r.status === "planned" ? "—" : money(r.price)}</td>
             <td>${status(r.status)}</td>
           </tr>`).join("")
@@ -348,7 +351,7 @@
         <ul class="spec">
           <li><span>Size</span><span>${acres(l.acres)} · ${l.sqft ? Math.round(l.sqft).toLocaleString("en-US") + " sq ft" : sqft(l.acres)}</span></li>
           ${l.phase ? `<li><span>Phase</span><span>${esc(l.phase)}</span></li>` : ""}
-          <li><span>Frontage</span><span>${l.frontage ? esc(l.frontage) + " ft" : "—"}</span></li>
+          <li><span>Frontage</span><span>${frontText(l)}</span></li>
           ${(l.setbacks || c.setbacks) ? `<li><span>Setbacks</span><span>${esc(l.setbacks || c.setbacks)}</span></li>` : ""}
           ${utilities.length ? `<li><span>Utilities</span><span>${utilities.map(esc).join("<br>")}</span></li>` : ""}
         </ul>
